@@ -17,6 +17,7 @@ import okhttp3.Headers;
 
 @Parcel
 public class Movies {
+    int movieId;
     String backdropPath;
     String title;
     String posterPath;
@@ -27,6 +28,7 @@ public class Movies {
     public Movies(){}
 
     public Movies(JSONObject jsonObject) throws JSONException {
+        movieId = jsonObject.getInt("id");
         backdropPath = jsonObject.getString("backdrop_path");
         title = jsonObject.getString("title");
         posterPath = jsonObject.getString("poster_path");
@@ -60,5 +62,9 @@ public class Movies {
 
     public double getRating() {
         return rating;
+    }
+
+    public int getMovieId() {
+        return movieId;
     }
 }
