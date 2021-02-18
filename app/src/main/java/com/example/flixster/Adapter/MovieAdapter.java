@@ -89,7 +89,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             else {
                 imageURL = movie.getPosterPath();
             }
-            Glide.with(context).load(imageURL).into(ivPoster);
+            int radius = 30; // corner radius, higher value = more rounded
+            Glide.with(context).load(imageURL).transform(new RoundedCornersTransformation(radius, 0)).into(ivPoster);
             //setting onClickListener for whole row
             container.setOnClickListener(new View.OnClickListener() {
                 @Override
