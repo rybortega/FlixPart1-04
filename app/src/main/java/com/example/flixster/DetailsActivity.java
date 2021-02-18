@@ -24,7 +24,6 @@ import okhttp3.Headers;
 
 public class DetailsActivity extends YouTubeBaseActivity {
 
-    private static final String YOUTUBE_API_KEY = "AIzaSyBgK4KsVMFvzWgupcjgXNR2pQtwwwAhx04";
     public static final String VIDEO_API = "https://api.themoviedb.org/3/movie/%d/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
     TextView tvTitle;
@@ -73,7 +72,8 @@ public class DetailsActivity extends YouTubeBaseActivity {
     }
 
     private void InitializeYoutubePlayer(String youtubeKey) {
-        youTubePlayerView.initialize(YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
+        String secretValue = getString(R.string.YOUTUBE_API_KEY);
+        youTubePlayerView.initialize(secretValue, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 Log.d("DetailsActivity", "success");
