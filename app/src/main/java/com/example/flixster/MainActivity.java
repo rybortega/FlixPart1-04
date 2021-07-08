@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.example.flixster.Adapter.MovieAdapter;
+import com.example.flixster.Adapter.MoviesAdapter;
 import com.example.flixster.Models.Movies;
 
 import org.json.JSONArray;
@@ -23,48 +23,48 @@ import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity {
 
+    RecyclerView rvMovieList;
+    List<Movies> movies;
     public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
     public static final String TAG = "MainActivity";
-
-    List<Movies> movies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RecyclerView rvMovies = findViewById(R.id.rvMovies);
-        movies = new ArrayList<>();
 
-        //create a local reference to adapter
-        MovieAdapter movieAdapter = new MovieAdapter(this, movies);
-        //set adapter on recyclerview
-        rvMovies.setAdapter(movieAdapter);
-        //set layout manager
-        rvMovies.setLayoutManager(new LinearLayoutManager(this));
+        rvMovieList = findViewById(R.id.rvMovieList);
+        movies = new ArrayList<>();
+        //local reference to adapter
+        MoviesAdapter adapter = new MoviesAdapter(movies, this);
+
+        //setting defined adapter to RV
+        rvMovieList.setAdapter(adapter);
+        //setting layout manager to RV
+        rvMovieList.setLayoutManager(new LinearLayoutManager(this));
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int i, Headers headers, JSON json) {
-                Log.d(TAG, "Success");
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess!");
                 JSONObject jsonObject = json.jsonObject;
                 try {
                     JSONArray results = jsonObject.getJSONArray("results");
-                    Log.d(TAG, "Results retrieved");
-                    movies.addAll(Movies.MovieList(results));
+                    movies.addAll(Movies.getMoviesList(results));
                     //notify adapter of changes
-                    movieAdapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
-                    Log.e(TAG, "JSON exception hit", e);
+                    Log.e(TAG, "Error!", e);
                     e.printStackTrace();
                 }
+
             }
 
             @Override
-            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                Log.d(TAG, "Fail");
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure!", throwable);
             }
         });
-
     }
 }
