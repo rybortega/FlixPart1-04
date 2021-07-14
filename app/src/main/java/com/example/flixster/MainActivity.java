@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView rvMovieList;
     List<Movies> movies;
-    public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+    public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=%s";
     public static final String TAG = "MainActivity";
 
     @Override
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         rvMovieList.setLayoutManager(new LinearLayoutManager(this));
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
+        client.get(String.format(NOW_PLAYING_URL, getString(R.string.TMDb_API_KEY)), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess!");

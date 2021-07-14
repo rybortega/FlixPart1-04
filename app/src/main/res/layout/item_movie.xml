@@ -2,17 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/Container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:barrierMargin="0dp">
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp">
 
     <ImageView
         android:id="@+id/ivImage"
         android:layout_width="200dp"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:scaleType="fitXY"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -23,11 +24,15 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:layout_toEndOf="@+id/ivImage"
+        android:foregroundTint="#FFFFFF"
         android:hint="Luca"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textColor="#FFFFFF"
+        android:textColorHint="#040303"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:transitionName="title" />
 
     <TextView
         android:id="@+id/tvOverview"
@@ -39,5 +44,8 @@
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/ivImage"
         android:hint="Luca and his best friend Alberto experience an unforgettable summer on the Italian Riviera. But all the fun is threatened by a deeply-held secret: they are sea monsters from another world just below the water’s surface."
-        android:textSize="16sp" />
+        android:textColor="#FFFFFF"
+        android:textColorHint="#050505"
+        android:textSize="14sp"
+        android:transitionName="overview" />
 </RelativeLayout>

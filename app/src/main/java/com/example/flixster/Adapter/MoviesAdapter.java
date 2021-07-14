@@ -1,20 +1,29 @@
 package com.example.flixster.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.flixster.DetailActivity;
+import com.example.flixster.MainActivity;
 import com.example.flixster.Models.Movies;
 import com.example.flixster.R;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -70,16 +79,27 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class PopularViewHolder extends RecyclerView.ViewHolder {
 
+        //RelativeLayout popularContainer;
         ImageView ivPopular;
 
         public PopularViewHolder(@NonNull View itemView) {
             super(itemView);
+            //popularContainer = itemView.findViewById(R.id.popularContainer);
             ivPopular = itemView.findViewById(R.id.ivPopular);
         }
 
         public void bind(Movies movie) {
             int radius = 30; // corner radius, higher value = more rounded
             Glide.with(context).load(movie.getBackdropPath()).transform(new RoundedCorners(radius)).into(ivPopular);
+            ivPopular.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(context, DetailActivity.class);
+                    i.putExtra("movie", Parcels.wrap(movie));
+                    i.putExtra("viewType", TYPE_POPULAR);
+                    context.startActivity(i);
+                }
+            });
         }
     }
 
@@ -88,12 +108,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ImageView ivImage;
         TextView tvTitle;
         TextView tvOverview;
+        RelativeLayout Container;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvOverview = itemView.findViewById(R.id.tvOverview);
+            Container = itemView.findViewById(R.id.Container);
         }
 
         public void bind(Movies movie) {
@@ -110,6 +132,18 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             int radius = 30; // corner radius, higher value = more rounded
             Glide.with(context).load(imageUrl).transform(new RoundedCorners(radius)).into(ivImage);
+            Container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(context, DetailActivity.class);
+                    i.putExtra("movie", Parcels.wrap(movie));
+                    i.putExtra("viewType", TYPE_LOW);
+                    Pair<View, String> p1 = Pair.create(tvTitle, "title");
+                    Pair<View, String> p2 = Pair.create(tvOverview, "overview");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation( (Activity) context, p1, p2);
+                    context.startActivity(i, options.toBundle());
+                }
+            });
         }
     }
 }
